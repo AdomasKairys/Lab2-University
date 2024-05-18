@@ -30,13 +30,13 @@ spec:
               value: "Y"
             - name: SA_PASSWORD
               value: My!P@ssw0rd1
-          image: mcr.microsoft.com/mssql/server:2019-latest
+          image: individualregistry.azurecr.io/mcr.microsoft.com/mssql/server:latest
           name: sqldata
           ports:
             - containerPort: 1433
           resources: {}
           volumeMounts:
-            - mountPath: /var/opt/mssql
+            - mountPath: "/mmp/mssql"
               name: lab2-sqldata
       restartPolicy: Always
       volumes:

@@ -33,7 +33,7 @@ spec:
               value: Server=sqldata;Database=StudentDB;User Id=sa;Password=My!P@ssw0rd1;Encrypt=False
             - name: MessageBroker__Host
               value: amqp://guest:guest@rabbitmq:5672
-          image: studentsapi
+          image: individualregistry.azurecr.io/studentsapi:latest
           name: studentsapi
           ports:
             - containerPort: 8080
