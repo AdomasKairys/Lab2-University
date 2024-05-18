@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+    userweb:
+        image: ${DOCKER_REGISTRY-}userweb
+        build:
+            context: .
+            dockerfile: UserWeb/Dockerfile
+        depends_on:
+         - coursesapi
+         - studentsapi
+    healthchecker:
+        image: ${DOCKER_REGISTRY-}healthchecker
+        build:
+            context: .
+            dockerfile: HealthChecker/Dockerfile
+        depends_on:
+         - coursesapi
+         - studentsapi
+    seq:
+        image: datalust/seq:latest
+    coursesapi:
+        image: ${DOCKER_REGISTRY-}coursesapi
+        build:
+            context: .
+            dockerfile: CoursesAPI/Dockerfile
+        depends_on:
+         - sqldata
+    studentsapi:
+        image: ${DOCKER_REGISTRY-}studentsapi
+        build:
+            context: .
+            dockerfile: StudentsAPI/Dockerfile
+        depends_on:
+         - sqldata
+    apigateway:
+        image: ${DOCKER_REGISTRY-}apigateway
+        build:
+            context: .
+            dockerfile: APIGateway/Dockerfile
+    sqldata:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+    rabbitmq:
+        image: rabbitmq:3.13-management
+        healthcheck:
+          test: ["CMD", "rabbitmqctl", "status"]
+          interval: 5s
+          timeout: 30s
+          retries: 3

@@ -1,0 +1,60 @@
+version: '3.4'
+services:
+    userweb:
+        environment:
+         - ASPNETCORE_ENVIRONMENT=Development
+         - ASPNETCORE_HTTP_PORTS=8080
+        ports:
+         - "5001:8080"
+    healthchecker:
+        environment:
+         - ASPNETCORE_ENVIRONMENT=Development
+         - ASPNETCORE_HTTP_PORTS=8080
+        ports:
+         - "5084:8080"
+    coursesapi:
+        environment:
+         - ASPNETCORE_ENVIRONMENT=Development
+         - ASPNETCORE_HTTP_PORTS=8080
+         - ConnectionStrings__CoursesAPIContext=Server=sqldata;Database=CoursesDB;User Id=sa;Password=My!P@ssw0rd1;Encrypt=False
+         - MessageBroker__Host=amqp://guest:guest@rabbitmq:5672
+        ports:
+         - "5081:8080"
+    studentsapi:
+        environment:
+         - ASPNETCORE_ENVIRONMENT=Development
+         - ASPNETCORE_HTTP_PORTS=8080
+         - ConnectionStrings__StudentsAPIContext=Server=sqldata;Database=StudentDB;User Id=sa;Password=My!P@ssw0rd1;Encrypt=False
+         - MessageBroker__Host=amqp://guest:guest@rabbitmq:5672
+        ports:
+         - "5082:8080"
+    apigateway:
+        environment:
+         - ASPNETCORE_ENVIRONMENT=Development
+         - ASPNETCORE_HTTP_PORTS=8080
+        ports:
+         - "5083:8080"
+    sqldata:
+        environment:
+         - SA_PASSWORD=My!P@ssw0rd1
+         - ACCEPT_EULA=Y
+        ports:
+         - "1433:1433"
+        volumes:
+         - lab2-sqldata:/var/opt/mssql
+    rabbitmq:
+        environment:
+         - RABBITMQ_DEFAULT_USER=guest
+         - RABBITMQ_DEFAULT_PASS=guest
+        ports:
+         - "15672:15672"
+         - "5672:5762" 
+    seq:
+        environment:
+        - ACCEPT_EULA=Y
+        ports:
+        - 5341:5341
+        - 8081:80
+volumes:
+    lab2-sqldata:
+        external: false

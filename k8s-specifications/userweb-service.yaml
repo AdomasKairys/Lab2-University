@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\kairy\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: userweb
+  name: userweb
+spec:
+  ports:
+    - name: "5001"
+      port: 5001
+      targetPort: 8080
+  selector:
+    io.kompose.service: userweb
+status:
+  loadBalancer: {}

@@ -1,0 +1,86 @@
+﻿@page
+@model StudentsModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<script src="bootstrap.min.js"></script>
+
+<div>@Model.Error</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.StudentList != null)
+        {
+            @foreach (var stud in Model.StudentList)
+            {
+                <tr>
+                    <td>
+                        @stud.FirstMidName
+                    </td>
+                    <td>
+                        @stud.LastName
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="@string.Format("#enrollmentModal{0}", stud.ID)">Enrollment</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+@if (Model.StudentList != null)
+{
+    @foreach (var stud in Model.StudentList)
+    {
+        <div class="modal fade" id="@string.Format("enrollmentModal{0}", stud.ID)" tabindex="-1" role="dialog" aria-labelledby="@string.Format("enrollmentModalLabel{0}", stud.ID)" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="@string.Format("enrollmentModalLabel{0}", stud.ID)">@stud.FirstMidName Enrollments</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Course name</th>
+                                    <th>Credits</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @if (stud.Enrollments != null && stud.Enrollments.Count > 0)
+                            {
+                                @foreach (var enrol in stud.Enrollments)
+                                {
+                                    <tr>
+                                        <td>@enrol.Title</td>
+                                        <td>@enrol.Credits</td>
+                                        <td>@enrol.Grade</td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+}

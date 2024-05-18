@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\kairy\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: userweb
+  name: userweb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: userweb
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Users\kairy\kompose.exe convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: userweb
+    spec:
+      containers:
+        - env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "8080"
+          image: userweb
+          name: userweb
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
+status: {}
